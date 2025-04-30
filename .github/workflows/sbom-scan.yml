@@ -1,0 +1,43 @@
+name: SBOM Vulnerability Scan
+
+on:
+  push:
+    paths:
+      - '**/*.json'  # Trigger on SBOM JSON files
+      - '**/*.xml'   # Also trigger on XML format SBOMs
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Grype
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
+
+      - name: Scan SBOMs
+        run: |
+          # Find all SBOM files and scan them
+          find . -type f \( -name "*.json" -o -name "*.xml" \) -exec sh -c '
+            echo "Scanning SBOM: {}"
+            grype sbom:{} --output table > "{}.scan-results.txt"
+          ' \;
+
+      - name: Upload scan results
+        uses: actions/upload-artifact@v3
+        with:
+          name: vulnerability-scan-results
+          path: ./**/*.scan-results.txt
+          retention-days: 90
+
+      - name: Check for high severity vulnerabilities
+        run: |
+          if grep -i "High\|Critical" ./**/*.scan-results.txt; then
+            echo "⚠️ High or Critical severity vulnerabilities found!"
+            exit 1
+          else
+            echo "✅ No high severity vulnerabilities found"
+          fi 
