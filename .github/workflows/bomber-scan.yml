@@ -20,81 +20,45 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.x'
-
       - name: Install Bomber
         run: |
-          python -m pip install --upgrade pip
-          pip install --upgrade setuptools wheel
-          pip install bomber-client
-          echo "Bomber version:"
-          bomber --version || true
-          echo "Bomber help:"
-          bomber --help || true
-
-      - name: Configure Bomber
-        env:
-          DT_URL: ${{ secrets.DEPENDENCY_TRACK_URL }}
-          DT_API_KEY: ${{ secrets.DEPENDENCY_TRACK_API_KEY }}
-        run: |
-          # Create bomber config directory
-          mkdir -p ~/.bomber
+          # Download latest bomber release
+          curl -s https://api.github.com/repos/devops-kung-fu/bomber/releases/latest | \
+          grep "browser_download_url.*linux_amd64.tar.gz" | \
+          cut -d : -f 2,3 | \
+          tr -d \" | \
+          wget -qi -
           
-          # Create config file
-          cat > ~/.bomber/config.ini << EOF
-          [dependency-track]
-          url = ${DT_URL:-"http://localhost:8081"}
-          api_key = ${DT_API_KEY:-"demo-api-key"}
+          # Extract and install bomber
+          tar xzf bomber_*_linux_amd64.tar.gz bomber
+          chmod +x bomber
+          sudo mv bomber /usr/local/bin/
           
-          [general]
-          debug = true
-          EOF
-          
-          echo "Bomber configuration created"
-          cat ~/.bomber/config.ini | grep -v api_key
-
-      - name: List SBOM files
-        run: |
-          echo "Found SBOM files:"
-          find . -type f \( -name "*.json" -o -name "*.xml" \) -exec ls -l {} \;
-          
-          echo "\nSBOM file contents preview:"
-          find . -type f \( -name "*.json" -o -name "*.xml" \) -exec sh -c '
-            echo "\n=== {} ==="
-            head -n 10 "{}"
-          ' \;
+          # Verify installation
+          bomber version
 
       - name: Create results directory
-        run: mkdir -p bomber-results
+        run: mkdir -p scan-results
 
-      - name: Scan SBOMs with Bomber
-        env:
-          PYTHONUNBUFFERED: 1
+      - name: Scan SBOMs
         run: |
           # Find all SBOM files and scan them
           for sbom in $(find . -type f \( -name "*.json" -o -name "*.xml" \)); do
             echo "==== Starting scan for: $sbom ===="
             
-            # Create result file
-            result_file="bomber-results/$(basename $sbom).scan-results.txt"
-            echo "=== Bomber Scan Results for $(basename $sbom) ===" > "$result_file"
-            echo "Scan Date: $(date)" >> "$result_file"
-            echo "===================================" >> "$result_file"
+            # Generate output filename
+            output_base="scan-results/$(basename $sbom)"
             
-            # Try to validate SBOM format
-            echo "Validating SBOM format..."
-            bomber sbom validate "$sbom" >> "$result_file" 2>&1 || echo "Warning: SBOM validation had issues"
+            # Run bomber scan with multiple output formats
+            bomber scan "$sbom" \
+              --output html,json,md \
+              --severity low \
+              || echo "Warning: Scan completed with findings"
             
-            echo "Running analysis..."
-            bomber sbom analyze --debug "$sbom" >> "$result_file" 2>&1 || echo "Warning: Scan completed with findings"
+            # Move generated files to our results directory
+            mv *-bomber-results.* scan-results/ 2>/dev/null || true
             
             echo "==== Completed scan for: $sbom ===="
-            echo "Results saved to: $result_file"
-            echo "Preview of results:"
-            tail -n 20 "$result_file"
           done
 
       - name: Upload scan results
@@ -102,44 +66,33 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: bomber-scan-results
-          path: bomber-results/
+          path: scan-results/
           retention-days: 90
           if-no-files-found: warn
 
-      - name: Generate scan summary
+      - name: Generate summary
         if: always()
         run: |
-          mkdir -p bomber-results
-          echo "### Bomber SBOM Scan Summary" > bomber-results/summary.md
-          echo "" >> bomber-results/summary.md
+          echo "### Bomber SBOM Scan Summary" > scan-results/summary.md
+          echo "" >> scan-results/summary.md
           
-          echo "#### Environment Information" >> bomber-results/summary.md
-          echo '```' >> bomber-results/summary.md
-          echo "Python Version:" >> bomber-results/summary.md
-          python --version >> bomber-results/summary.md
-          echo "\nInstalled Packages:" >> bomber-results/summary.md
-          pip list | grep bomber >> bomber-results/summary.md
-          echo "\nBomber Version:" >> bomber-results/summary.md
-          bomber --version >> bomber-results/summary.md 2>&1
-          echo "\nBomber Configuration:" >> bomber-results/summary.md
-          cat ~/.bomber/config.ini | grep -v api_key >> bomber-results/summary.md
-          echo '```' >> bomber-results/summary.md
+          echo "#### Environment Information" >> scan-results/summary.md
+          echo '```' >> scan-results/summary.md
+          bomber version >> scan-results/summary.md
+          echo '```' >> scan-results/summary.md
           
-          echo "\n#### Found SBOM Files" >> bomber-results/summary.md
-          echo '```' >> bomber-results/summary.md
-          find . -type f \( -name "*.json" -o -name "*.xml" \) -ls >> bomber-results/summary.md
-          echo '```' >> bomber-results/summary.md
+          echo "\n#### Found SBOM Files" >> scan-results/summary.md
+          echo '```' >> scan-results/summary.md
+          find . -type f \( -name "*.json" -o -name "*.xml" \) -ls >> scan-results/summary.md
+          echo '```' >> scan-results/summary.md
           
-          echo "\n#### Scan Results" >> bomber-results/summary.md
-          for file in bomber-results/*.scan-results.txt; do
+          echo "\n#### Scan Results" >> scan-results/summary.md
+          for file in scan-results/*-bomber-results.md; do
             if [ -f "$file" ]; then
-              filename=$(basename "$file" .scan-results.txt)
-              echo "\n#### Results for $filename" >> bomber-results/summary.md
-              echo '```' >> bomber-results/summary.md
-              cat "$file" >> bomber-results/summary.md
-              echo '```' >> bomber-results/summary.md
+              echo "\n#### Results from $(basename $file)" >> scan-results/summary.md
+              cat "$file" >> scan-results/summary.md
+              echo "" >> scan-results/summary.md
             fi
           done
           
-          echo "\nSummary generated. Preview:"
-          cat bomber-results/summary.md
+          cat scan-results/summary.md
