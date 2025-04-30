@@ -28,14 +28,30 @@ jobs:
 
       - name: Run Bomber scan
         run: |
+          # Create scan results directory
+          mkdir -p scan-results
+          
           # Find and scan all SBOM files
           for file in $(find . -maxdepth 1 -type f \( -name "*.json" -o -name "*-sbom.xml" \)); do
             echo "Scanning SBOM: $file"
-            # Run separate scans for each output format
+            echo "Current directory: $(pwd)"
+            echo "Contents before scan:"
+            ls -la
+            
+            # Run scans with explicit output paths
             bomber scan "$file" --output html --provider ossindex
             bomber scan "$file" --output json --provider ossindex
             bomber scan "$file" --output md --provider ossindex
+            
+            echo "Contents after scan:"
+            ls -la
+            
+            # Move any generated files to scan-results directory
+            mv -v *bomber-results.* scan-results/ 2>/dev/null || echo "No results to move for $file"
           done
+          
+          echo "Final contents of scan-results directory:"
+          ls -la scan-results/
 
       - name: Upload scan results
         uses: actions/upload-artifact@v4
