@@ -28,20 +28,39 @@ jobs:
       - name: Install Bomber
         run: |
           python -m pip install --upgrade pip
+          pip install --upgrade setuptools wheel
           pip install bomber-client
+          bomber --version
+          bomber --help
+
+      - name: List SBOM files
+        run: |
+          echo "Found SBOM files:"
+          find . -type f \( -name "*.json" -o -name "*.xml" \) -ls
 
       - name: Create results directory
         run: mkdir -p bomber-results
 
       - name: Scan SBOMs with Bomber
+        env:
+          PYTHONUNBUFFERED: 1
         run: |
           # Find all SBOM files and scan them
           find . -type f \( -name "*.json" -o -name "*.xml" \) -exec sh -c '
-            echo "Scanning SBOM: {}"
+            echo "==== Starting scan for: {} ===="
+            echo "File contents preview:"
+            head -n 5 "{}"
             echo "=== Bomber Scan Results for $(basename {}) ===" > "bomber-results/$(basename {}).scan-results.txt"
             echo "Scan Date: $(date)" >> "bomber-results/$(basename {}).scan-results.txt"
             echo "===================================" >> "bomber-results/$(basename {}).scan-results.txt"
-            bomber sbom analyze {} >> "bomber-results/$(basename {}).scan-results.txt" 2>&1 || echo "Warning: Scan completed with findings"
+            
+            # Try to validate SBOM format first
+            echo "Validating SBOM format..."
+            bomber sbom validate {} 2>&1 || echo "Warning: SBOM validation had issues"
+            
+            echo "Running analysis..."
+            bomber sbom analyze --debug {} >> "bomber-results/$(basename {}).scan-results.txt" 2>&1 || echo "Warning: Scan completed with findings"
+            echo "==== Completed scan for: {} ====" 
           ' \;
         continue-on-error: true
 
@@ -59,6 +78,14 @@ jobs:
         run: |
           echo "### Bomber SBOM Scan Summary" > bomber-results/summary.md
           echo "" >> bomber-results/summary.md
+          echo "#### Environment Information" >> bomber-results/summary.md
+          echo '```' >> bomber-results/summary.md
+          python --version >> bomber-results/summary.md
+          pip list | grep bomber >> bomber-results/summary.md
+          bomber --version >> bomber-results/summary.md 2>&1
+          echo '```' >> bomber-results/summary.md
+          echo "" >> bomber-results/summary.md
+          echo "#### Scan Results" >> bomber-results/summary.md
           for file in bomber-results/*.scan-results.txt; do
             if [ -f "$file" ]; then
               filename=$(basename "$file" .scan-results.txt)
