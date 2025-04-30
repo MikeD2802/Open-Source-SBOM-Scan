@@ -3,8 +3,8 @@ name: SBOM Bomber Scan
 on:
   push:
     paths:
-      - '**/*.json'  # Trigger on SBOM JSON files
-      - '**/*.xml'   # Also trigger on XML format SBOMs
+      - '**/*.json'            # Any JSON files
+      - '**/*-sbom.xml'        # Any SBOM XML files
   workflow_dispatch:  # Allow manual triggering
 
 permissions:
@@ -17,82 +17,79 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Install Bomber
         run: |
-          # Download latest bomber release
-          curl -s https://api.github.com/repos/devops-kung-fu/bomber/releases/latest | \
-          grep "browser_download_url.*linux_amd64.tar.gz" | \
-          cut -d : -f 2,3 | \
-          tr -d \" | \
-          wget -qi -
-          
-          # Extract and install bomber
-          tar xzf bomber_*_linux_amd64.tar.gz bomber
+          wget https://github.com/devops-kung-fu/bomber/releases/download/v0.5.1/bomber_0.5.1_linux_amd64.tar.gz
+          tar xzf bomber_0.5.1_linux_amd64.tar.gz bomber
           chmod +x bomber
           sudo mv bomber /usr/local/bin/
-          
-          # Verify installation
           bomber version
 
+      - name: List SBOM files
+        run: |
+          echo "Current directory: $(pwd)"
+          echo "Found files to scan:"
+          find . -type f \( -name "*.json" -o -name "*-sbom.xml" \)
+
       - name: Create results directory
-        run: mkdir -p scan-results
+        run: |
+          mkdir -p scan-results
+          echo "Created scan-results directory: $(ls -la scan-results)"
 
       - name: Scan SBOMs
         run: |
-          # Find all SBOM files and scan them
-          for sbom in $(find . -type f \( -name "*.json" -o -name "*.xml" \)); do
-            echo "==== Starting scan for: $sbom ===="
-            
-            # Generate output filename
-            output_base="scan-results/$(basename $sbom)"
-            
-            # Run bomber scan with multiple output formats
-            bomber scan "$sbom" \
-              --output html,json,md \
-              --severity low \
-              || echo "Warning: Scan completed with findings"
-            
-            # Move generated files to our results directory
-            mv *-bomber-results.* scan-results/ 2>/dev/null || true
-            
-            echo "==== Completed scan for: $sbom ===="
+          # Find and scan all JSON and SBOM files
+          find . -type f \( -name "*.json" -o -name "*-sbom.xml" \) -print0 | while IFS= read -r -d '' file; do
+            echo "Starting scan of: $file"
+            bomber scan "$file" --output html || true
+            bomber scan "$file" --output json || true
+            bomber scan "$file" --output md || true
           done
+          
+          # Move all generated results to scan-results directory
+          mv *bomber-results.* scan-results/ || echo "No results to move"
+          
+          # List generated files
+          echo "Generated files in scan-results:"
+          ls -la scan-results/
 
       - name: Upload scan results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: bomber-scan-results
-          path: scan-results/
+          path: |
+            scan-results/*bomber-results.*
           retention-days: 90
           if-no-files-found: warn
 
       - name: Generate summary
         if: always()
         run: |
-          echo "### Bomber SBOM Scan Summary" > scan-results/summary.md
-          echo "" >> scan-results/summary.md
-          
-          echo "#### Environment Information" >> scan-results/summary.md
-          echo '```' >> scan-results/summary.md
-          bomber version >> scan-results/summary.md
-          echo '```' >> scan-results/summary.md
-          
-          echo "\n#### Found SBOM Files" >> scan-results/summary.md
-          echo '```' >> scan-results/summary.md
-          find . -type f \( -name "*.json" -o -name "*.xml" \) -ls >> scan-results/summary.md
-          echo '```' >> scan-results/summary.md
-          
-          echo "\n#### Scan Results" >> scan-results/summary.md
-          for file in scan-results/*-bomber-results.md; do
-            if [ -f "$file" ]; then
-              echo "\n#### Results from $(basename $file)" >> scan-results/summary.md
-              cat "$file" >> scan-results/summary.md
-              echo "" >> scan-results/summary.md
+          {
+            echo "### Bomber SBOM Scan Summary"
+            echo ""
+            echo "#### Environment Information"
+            echo '```'
+            bomber version
+            echo '```'
+            
+            echo -e "\n#### Input Files"
+            echo '```'
+            find . -maxdepth 1 -type f \( -name "*.json" -o -name "*-sbom.xml" \)
+            echo '```'
+            
+            echo -e "\n#### Generated Reports"
+            echo '```'
+            ls -la scan-results/
+            echo '```'
+            
+            if [ -f "scan-results/"*"-bomber-results.md" ]; then
+              echo -e "\n#### Scan Results"
+              cat scan-results/*-bomber-results.md
             fi
-          done
+          } > scan-results/summary.md
           
+          echo "Summary contents:"
           cat scan-results/summary.md
