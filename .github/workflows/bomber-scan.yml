@@ -1,15 +1,15 @@
-name: SBOM Bomber Scan
+name: Bomber SBOM Vulnerability Scan
 
 on:
   push:
     paths:
-      - '**/*.json'            # Any JSON files
-      - '**/*-sbom.xml'        # Any SBOM XML files
+      - '**/*.json'  # Trigger on SBOM JSON files
+      - '**/*-sbom.xml'   # Also trigger on XML format SBOMs
   workflow_dispatch:  # Allow manual triggering
 
-permissions:
-  contents: read
-  actions: write
+env:
+  BOMBER_PROVIDER_USERNAME: ${{ secrets.BOMBER_PROVIDER_USERNAME }}
+  BOMBER_PROVIDER_TOKEN: ${{ secrets.BOMBER_PROVIDER_TOKEN }}
 
 jobs:
   scan:
@@ -24,55 +24,33 @@ jobs:
           tar xzf bomber_0.5.1_linux_amd64.tar.gz bomber
           chmod +x bomber
           sudo mv bomber /usr/local/bin/
-          bomber version
-
-      - name: List SBOM files
-        run: |
-          echo "Current directory: $(pwd)"
-          echo "Found files to scan:"
-          find . -type f \( -name "*.json" -o -name "*-sbom.xml" \)
-
-      - name: Create results directory
-        run: |
           mkdir -p scan-results
-          echo "Created scan-results directory: $(ls -la scan-results)"
 
-      - name: Scan SBOMs
+      - name: Run Bomber scan
         run: |
-          # Find and scan all JSON and SBOM files
-          find . -type f \( -name "*.json" -o -name "*-sbom.xml" \) -print0 | while IFS= read -r -d '' file; do
-            echo "Starting scan of: $file"
-            bomber scan "$file" --output html || true
-            bomber scan "$file" --output json || true
-            bomber scan "$file" --output md || true
+          # Find and scan all SBOM files
+          for file in $(find . -maxdepth 1 -type f \( -name "*.json" -o -name "*-sbom.xml" \)); do
+            echo "Scanning SBOM: $file"
+            bomber scan "$file" --output=html,json,md --provider ossindex
           done
-          
-          # Move all generated results to scan-results directory
-          mv *bomber-results.* scan-results/ || echo "No results to move"
-          
-          # List generated files
-          echo "Generated files in scan-results:"
-          ls -la scan-results/
 
       - name: Upload scan results
-        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: bomber-scan-results
-          path: |
-            scan-results/*bomber-results.*
+          path: scan-results/*bomber-results.*
           retention-days: 90
           if-no-files-found: warn
 
       - name: Generate summary
-        if: always()
         run: |
+          mkdir -p scan-results
           {
             echo "### Bomber SBOM Scan Summary"
             echo ""
             echo "#### Environment Information"
             echo '```'
-            bomber version
+            bomber scan --help | head -n 1
             echo '```'
             
             echo -e "\n#### Input Files"
@@ -90,6 +68,6 @@ jobs:
               cat scan-results/*-bomber-results.md
             fi
           } > scan-results/summary.md
-          
+
           echo "Summary contents:"
           cat scan-results/summary.md
