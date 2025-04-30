@@ -1,0 +1,72 @@
+name: SBOM Bomber Scan
+
+on:
+  push:
+    paths:
+      - '**/*.json'  # Trigger on SBOM JSON files
+      - '**/*.xml'   # Also trigger on XML format SBOMs
+  workflow_dispatch:  # Allow manual triggering
+
+permissions:
+  contents: read
+  actions: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install Bomber
+        run: |
+          python -m pip install --upgrade pip
+          pip install bomber-client
+
+      - name: Create results directory
+        run: mkdir -p bomber-results
+
+      - name: Scan SBOMs with Bomber
+        run: |
+          # Find all SBOM files and scan them
+          find . -type f \( -name "*.json" -o -name "*.xml" \) -exec sh -c '
+            echo "Scanning SBOM: {}"
+            echo "=== Bomber Scan Results for $(basename {}) ===" > "bomber-results/$(basename {}).scan-results.txt"
+            echo "Scan Date: $(date)" >> "bomber-results/$(basename {}).scan-results.txt"
+            echo "===================================" >> "bomber-results/$(basename {}).scan-results.txt"
+            bomber sbom analyze {} >> "bomber-results/$(basename {}).scan-results.txt" 2>&1 || echo "Warning: Scan completed with findings"
+          ' \;
+        continue-on-error: true
+
+      - name: Upload scan results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bomber-scan-results
+          path: bomber-results/
+          retention-days: 90
+          if-no-files-found: warn
+
+      - name: Generate scan summary
+        if: always()
+        run: |
+          echo "### Bomber SBOM Scan Summary" > bomber-results/summary.md
+          echo "" >> bomber-results/summary.md
+          for file in bomber-results/*.scan-results.txt; do
+            if [ -f "$file" ]; then
+              filename=$(basename "$file" .scan-results.txt)
+              echo "#### Results for $filename" >> bomber-results/summary.md
+              echo '```' >> bomber-results/summary.md
+              cat "$file" >> bomber-results/summary.md
+              echo '```' >> bomber-results/summary.md
+              echo "" >> bomber-results/summary.md
+            fi
+          done
+          cat bomber-results/summary.md
