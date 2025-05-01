@@ -3,12 +3,12 @@ name: SBOM Vulnerability Scan
 on:
   push:
     paths:
-      - '**/*.json'  # Trigger on SBOM JSON files
-      - '**/*.xml'   # Also trigger on XML format SBOMs
+      - "sboms/**/*.json"  # Trigger only when SBOMs in 'sboms/' are changed
+      - "sboms/**/*.xml"
   workflow_dispatch:  # Allow manual triggering
 
 permissions:
-  contents: read
+  contents: write  # Needed to commit to the repo
   actions: write
 
 jobs:
@@ -25,35 +25,40 @@ jobs:
           curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
           grype version
 
-      - name: Create results directory
-        run: mkdir -p scan-results
-
-      - name: Scan SBOMs
+      - name: Configure Git
         run: |
-          # Find all SBOM files and scan them
-          find . -type f \( -name "*.json" -o -name "*.xml" \) -exec sh -c '
-            echo "Scanning SBOM: {}"
-            mkdir -p scan-results
-            echo "=== Scan Results for $(basename {}) ===" > "scan-results/$(basename {}).scan-results.txt"
-            echo "Scan Date: $(date)" >> "scan-results/$(basename {}).scan-results.txt"
-            echo "===================================" >> "scan-results/$(basename {}).scan-results.txt"
-            grype sbom:{} --output table >> "scan-results/$(basename {}).scan-results.txt"
-            echo -e "\nVulnerability Summary:" >> "scan-results/$(basename {}).scan-results.txt"
-            echo "Critical: $(grype sbom:{} --output json | grep -c '"severity": "Critical"')" >> "scan-results/$(basename {}).scan-results.txt"
-            echo "High: $(grype sbom:{} --output json | grep -c '"severity": "High"')" >> "scan-results/$(basename {}).scan-results.txt"
-            echo "Medium: $(grype sbom:{} --output json | grep -c '"severity": "Medium"')" >> "scan-results/$(basename {}).scan-results.txt"
-            echo "Low: $(grype sbom:{} --output json | grep -c '"severity": "Low"')" >> "scan-results/$(basename {}).scan-results.txt"
-          ' \;
-        continue-on-error: true
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Upload scan results
-        if: always()  # Upload results even if scanning fails
-        uses: actions/upload-artifact@v4
-        with:
-          name: vulnerability-scan-results
-          path: scan-results/
-          retention-days: 90
-          if-no-files-found: warn
+      - name: Scan SBOMs and Save Results
+        run: |
+          now=$(date +'%Y-%m-%dT%H-%M')
+          mkdir -p sboms  # Ensure the directory exists
+          mkdir -p scan-results
+          for sbom in $(find sboms/ -type f \( -name "*.json" -o -name "*.xml" \)); do
+            base=$(basename "$sbom")
+            folder="scan-results/${base}-${now}"
+            mkdir -p "$folder"
+
+            echo "Scanning SBOM: $sbom"
+            
+            # Save text output
+            result_file="$folder/${base}.scan-results.txt"
+            echo "=== Scan Results for $base ===" > "$result_file"
+            echo "Scan Date: $(date)" >> "$result_file"
+            echo "===================================" >> "$result_file"
+            grype sbom:"$sbom" --output table >> "$result_file"
+            echo -e "\nVulnerability Summary:" >> "$result_file"
+            echo "Critical: $(grype sbom:$sbom --output json | grep -c '\"severity\": \"Critical\"')" >> "$result_file"
+            echo "High: $(grype sbom:$sbom --output json | grep -c '\"severity\": \"High\"')" >> "$result_file"
+            echo "Medium: $(grype sbom:$sbom --output json | grep -c '\"severity\": \"Medium\"')" >> "$result_file"
+            echo "Low: $(grype sbom:$sbom --output json | grep -c '\"severity\": \"Low\"')" >> "$result_file"
+            
+            # Save JSON output
+            json_file="$folder/${base}.scan-results.json"
+            grype sbom:"$sbom" --output json > "$json_file"
+          done
+        continue-on-error: true
 
       - name: Generate vulnerability summary
         if: always()
@@ -61,7 +66,7 @@ jobs:
           echo "### Vulnerability Scan Summary" > scan-results/summary.md
           echo "| SBOM File | Critical | High | Medium | Low |" >> scan-results/summary.md
           echo "|-----------|----------|------|--------|-----|" >> scan-results/summary.md
-          for file in scan-results/*.scan-results.txt; do
+          for file in scan-results/*/*.scan-results.txt; do
             if [ -f "$file" ]; then
               filename=$(basename "$file" .scan-results.txt)
               crit=$(grep "Critical:" "$file" | awk '{print $2}')
@@ -72,3 +77,14 @@ jobs:
             fi
           done
           cat scan-results/summary.md
+
+      - name: Commit and Push Results to sbom-scan-results Branch
+        if: always()
+        run: |
+          git fetch origin sbom-scan-results || echo "No remote branch yet"
+          git switch --force-create sbom-scan-results origin/sbom-scan-results || git switch sbom-scan-results
+
+          # Restore scan-results and commit
+          git add scan-results/
+          git commit -m "Add SBOM scan results [skip ci]" || echo "No changes to commit"
+          git push origin sbom-scan-results --force
