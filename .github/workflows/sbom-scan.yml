@@ -66,16 +66,24 @@ jobs:
           echo "### Vulnerability Scan Summary" > scan-results/summary.md
           echo "| SBOM File | Critical | High | Medium | Low |" >> scan-results/summary.md
           echo "|-----------|----------|------|--------|-----|" >> scan-results/summary.md
-          for file in scan-results/*/*.scan-results.txt; do
-            if [ -f "$file" ]; then
-              filename=$(basename "$file" .scan-results.txt)
-              crit=$(grep "Critical:" "$file" | awk '{print $2}')
-              high=$(grep "High:" "$file" | awk '{print $2}')
-              med=$(grep "Medium:" "$file" | awk '{print $2}')
-              low=$(grep "Low:" "$file" | awk '{print $2}')
-              echo "| $filename | $crit | $high | $med | $low |" >> scan-results/summary.md
+          
+          # First, find all scan result files
+          for dir in scan-results/*/; do
+            if [ -d "$dir" ]; then
+              for file in "$dir"/*.scan-results.txt; do
+                if [ -f "$file" ]; then
+                  # Extract just the original SBOM filename without the timestamp
+                  filename=$(basename "$dir" | sed 's/-[0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}T[0-9]\{2\}-[0-9]\{2\}$//')
+                  crit=$(grep "Critical:" "$file" | awk '{print $2}')
+                  high=$(grep "High:" "$file" | awk '{print $2}')
+                  med=$(grep "Medium:" "$file" | awk '{print $2}')
+                  low=$(grep "Low:" "$file" | awk '{print $2}')
+                  echo "| $filename | $crit | $high | $med | $low |" >> scan-results/summary.md
+                fi
+              done
             fi
           done
+          
           cat scan-results/summary.md
 
       - name: Commit and Push Results to sbom-scan-results Branch
