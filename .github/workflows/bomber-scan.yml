@@ -58,36 +58,6 @@ jobs:
             mv -v *bomber-results.* "$folder/" 2>/dev/null || echo "No results to move for $sbom"
           done
 
-      - name: Generate summary
-        if: always()
-        run: |
-          echo "### Bomber SBOM Scan Summary" > scan-results/summary.md
-          echo "" >> scan-results/summary.md
-          echo "#### Environment Information" >> scan-results/summary.md
-          echo '```' >> scan-results/summary.md
-          bomber scan --help | head -n 1 >> scan-results/summary.md
-          echo '```' >> scan-results/summary.md
-          
-          echo -e "\n#### Scanned Files" >> scan-results/summary.md
-          echo '```' >> scan-results/summary.md
-          find sboms/ -type f \( -name "*.json" -o -name "*.xml" \) >> scan-results/summary.md
-          echo '```' >> scan-results/summary.md
-          
-          echo -e "\n#### Latest Scan Results" >> scan-results/summary.md
-          # Find and include the most recent markdown results for each SBOM
-          for dir in scan-results/*/; do
-            if [ -d "$dir" ]; then
-              for file in "$dir"/*-bomber-results.md; do
-                if [ -f "$file" ]; then
-                  echo -e "\n##### Results for $(basename "$dir" | sed 's/-[0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}T[0-9]\{2\}-[0-9]\{2\}$//')" >> scan-results/summary.md
-                  cat "$file" >> scan-results/summary.md
-                fi
-              done
-            fi
-          done
-          
-          cat scan-results/summary.md
-
       - name: Commit and Push Results to sbom-scan-results Branch
         if: always()
         run: |
