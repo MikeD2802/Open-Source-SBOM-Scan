@@ -3,13 +3,17 @@ name: Bomber SBOM Vulnerability Scan
 on:
   push:
     paths:
-      - '**/*.json'  # Trigger on SBOM JSON files
-      - '**/*-sbom.xml'   # Also trigger on XML format SBOMs
+      - "sboms/**/*.json"  # Trigger only when SBOMs in 'sboms/' are changed
+      - "sboms/**/*.xml"
   workflow_dispatch:  # Allow manual triggering
 
 env:
   BOMBER_PROVIDER_USERNAME: ${{ secrets.BOMBER_PROVIDER_USERNAME }}
   BOMBER_PROVIDER_TOKEN: ${{ secrets.BOMBER_PROVIDER_TOKEN }}
+
+permissions:
+  contents: write  # Needed to commit to the repo
+  actions: write
 
 jobs:
   scan:
@@ -17,6 +21,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Install Bomber
         run: |
@@ -24,69 +30,71 @@ jobs:
           tar xzf bomber_0.5.1_linux_amd64.tar.gz bomber
           chmod +x bomber
           sudo mv bomber /usr/local/bin/
-          mkdir -p scan-results
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       - name: Run Bomber scan
         run: |
-          # Create scan results directory
+          now=$(date +'%Y-%m-%dT%H-%M')
+          mkdir -p sboms  # Ensure the directory exists
           mkdir -p scan-results
           
-          # Find and scan all SBOM files
-          for file in $(find . -maxdepth 1 -type f \( -name "*.json" -o -name "*-sbom.xml" \)); do
-            echo "Scanning SBOM: $file"
-            echo "Current directory: $(pwd)"
-            echo "Contents before scan:"
-            ls -la
+          for sbom in $(find sboms/ -type f \( -name "*.json" -o -name "*.xml" \)); do
+            base=$(basename "$sbom")
+            folder="scan-results/${base}-${now}"
+            mkdir -p "$folder"
             
-            # Run scans with explicit output paths
-            bomber scan "$file" --output html --provider ossindex
-            bomber scan "$file" --output json --provider ossindex
-            bomber scan "$file" --output md --provider ossindex
+            echo "Scanning SBOM: $sbom"
             
-            echo "Contents after scan:"
-            ls -la
+            # Run scans with explicit output paths for each format
+            bomber scan "$sbom" --output html --provider ossindex
+            bomber scan "$sbom" --output json --provider ossindex
+            bomber scan "$sbom" --output md --provider ossindex
             
-            # Move any generated files to scan-results directory
-            mv -v *bomber-results.* scan-results/ 2>/dev/null || echo "No results to move for $file"
+            # Move generated files to the timestamped folder
+            mv -v *bomber-results.* "$folder/" 2>/dev/null || echo "No results to move for $sbom"
           done
-          
-          echo "Final contents of scan-results directory:"
-          ls -la scan-results/
-
-      - name: Upload scan results
-        uses: actions/upload-artifact@v4
-        with:
-          name: bomber-scan-results
-          path: scan-results/*bomber-results.*
-          retention-days: 90
-          if-no-files-found: warn
 
       - name: Generate summary
+        if: always()
         run: |
-          mkdir -p scan-results
-          {
-            echo "### Bomber SBOM Scan Summary"
-            echo ""
-            echo "#### Environment Information"
-            echo '```'
-            bomber scan --help | head -n 1
-            echo '```'
-            
-            echo -e "\n#### Input Files"
-            echo '```'
-            find . -maxdepth 1 -type f \( -name "*.json" -o -name "*-sbom.xml" \)
-            echo '```'
-            
-            echo -e "\n#### Generated Reports"
-            echo '```'
-            ls -la scan-results/
-            echo '```'
-            
-            if [ -f "scan-results/"*"-bomber-results.md" ]; then
-              echo -e "\n#### Scan Results"
-              cat scan-results/*-bomber-results.md
+          echo "### Bomber SBOM Scan Summary" > scan-results/summary.md
+          echo "" >> scan-results/summary.md
+          echo "#### Environment Information" >> scan-results/summary.md
+          echo '```' >> scan-results/summary.md
+          bomber scan --help | head -n 1 >> scan-results/summary.md
+          echo '```' >> scan-results/summary.md
+          
+          echo -e "\n#### Scanned Files" >> scan-results/summary.md
+          echo '```' >> scan-results/summary.md
+          find sboms/ -type f \( -name "*.json" -o -name "*.xml" \) >> scan-results/summary.md
+          echo '```' >> scan-results/summary.md
+          
+          echo -e "\n#### Latest Scan Results" >> scan-results/summary.md
+          # Find and include the most recent markdown results for each SBOM
+          for dir in scan-results/*/; do
+            if [ -d "$dir" ]; then
+              for file in "$dir"/*-bomber-results.md; do
+                if [ -f "$file" ]; then
+                  echo -e "\n##### Results for $(basename "$dir" | sed 's/-[0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}T[0-9]\{2\}-[0-9]\{2\}$//')" >> scan-results/summary.md
+                  cat "$file" >> scan-results/summary.md
+                fi
+              done
             fi
-          } > scan-results/summary.md
-
-          echo "Summary contents:"
+          done
+          
           cat scan-results/summary.md
+
+      - name: Commit and Push Results to sbom-scan-results Branch
+        if: always()
+        run: |
+          git fetch origin sbom-scan-results || echo "No remote branch yet"
+          git switch --force-create sbom-scan-results origin/sbom-scan-results || git switch sbom-scan-results
+
+          # Restore scan-results and commit
+          git add scan-results/
+          git commit -m "Add Bomber SBOM scan results [skip ci]" || echo "No changes to commit"
+          git push origin sbom-scan-results --force
