@@ -2,25 +2,31 @@
 
 This repository is configured to automatically scan Software Bill of Materials (SBOM) files for vulnerabilities using two different tools: **Grype** and **OWASP Dependency-Track Bomber**. Both workflows run in GitHub Actions and are triggered on pushes or manual dispatch.
 
+## Repository Structure
+
+- `sboms/` - Directory for storing SBOM files to be scanned
+- `scan-results/` - Directory for storing scan results (in the `sbom-scan-results` branch)
+- `.github/workflows/` - Contains the workflow definitions
+
 ## Workflows
 
 ### 1. Grype SBOM Scan
 
 - **Tool:** [Grype](https://github.com/anchore/grype)
-- **Trigger:** Any push to `*.json` or `*.xml` files, or manual run
+- **Trigger:** Any push to `*.json` or `*.xml` files in the `sboms/` directory, or manual run
 - **What it does:**
-  - Scans all SBOM JSON and XML files in the repository
-  - Generates vulnerability reports and a summary table
-  - Uploads results as workflow artifacts
+  - Scans all SBOM JSON and XML files in the `sboms/` directory
+  - Generates text and JSON vulnerability reports
+  - Stores results in timestamped folders in the `sbom-scan-results` branch
 
 ### 2. Bomber SBOM Scan
 
 - **Tool:** [OWASP Dependency-Track Bomber](https://github.com/devops-kung-fu/bomber)
-- **Trigger:** Any push to `*.json` or `*-sbom.xml` files, or manual run
+- **Trigger:** Any push to `*.json` or `*.xml` files in the `sboms/` directory, or manual run
 - **What it does:**
-  - Scans all SBOM JSON and SBOM XML files in the repository
+  - Scans all SBOM JSON and XML files in the `sboms/` directory
   - Generates HTML, JSON, and Markdown vulnerability reports
-  - Uploads results as workflow artifacts
+  - Stores results in timestamped folders in the `sbom-scan-results` branch
   - Requires OSS Index credentials (see below)
 
 ## Setup Instructions
@@ -37,14 +43,25 @@ The Bomber workflow requires credentials for the OSS Index vulnerability databas
 
 Go to **Repository Settings → Secrets and variables → Actions** to add these secrets.
 
-## Artifacts
+## Results Storage
 
-After each scan, results are uploaded as workflow artifacts. You can download these from the "Actions" tab in your repository after a workflow run.
+Scan results are stored in the `sbom-scan-results` branch with the following structure:
+```
+scan-results/
+└── [SBOM_FILENAME]-[TIMESTAMP]/
+    ├── [SBOM_FILENAME].scan-results.txt    # Grype text output
+    ├── [SBOM_FILENAME].scan-results.json   # Grype JSON output
+    ├── [SBOM_FILENAME]-bomber-results.html # Bomber HTML output
+    ├── [SBOM_FILENAME]-bomber-results.json # Bomber JSON output
+    └── [SBOM_FILENAME]-bomber-results.md   # Bomber Markdown output
+```
 
-## Customization
+## Usage
 
-- You can adjust the file patterns in the workflow YAMLs to match your SBOM naming conventions.
-- Both workflows can be triggered manually from the GitHub Actions UI.
+1. Add your SBOM files (JSON or XML) to the `sboms/` directory
+2. Push the changes to trigger the workflows
+3. Results will be automatically stored in the `sbom-scan-results` branch
+4. View results in the timestamped folders under `scan-results/`
 
 ## References
 
