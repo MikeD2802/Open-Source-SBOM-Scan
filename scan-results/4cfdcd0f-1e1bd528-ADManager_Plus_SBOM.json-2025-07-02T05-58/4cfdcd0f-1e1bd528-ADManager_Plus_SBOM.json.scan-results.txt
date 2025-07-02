@@ -1,0 +1,127 @@
+=== Scan Results for 4cfdcd0f-1e1bd528-ADManager_Plus_SBOM.json ===
+Scan Date: Wed Jul  2 05:59:05 UTC 2025
+===================================
+NAME                     INSTALLED        FIXED-IN                   TYPE            VULNERABILITY        SEVERITY  EPSS%  RISK  
+snakeyaml                1.17             2.0                        java-archive    GHSA-mjmj-j48q-9wg2  High      99.86   74.1  
+json5                    0.5.1            1.0.2                      npm             GHSA-9c47-m6qq-7p4h  High      97.47   33.1  
+apache/tomcat                                                        UnknownPackage  CVE-2016-5425        High      94.14   10.9  
+apache/tomcat            18                                          UnknownPackage  CVE-2016-5425        High      94.14   10.9  
+apache/tomcat            9.0.102                                     UnknownPackage  CVE-2016-5425        High      94.14   10.9  
+velocity                 1.7                                         java-archive    GHSA-59j4-wjwp-mw9m  High      93.52    9.9  
+microsoft/visual_studio  10.00.40219.1                               UnknownPackage  CVE-2014-3802        Medium    93.22    6.6  
+microsoft/visual_studio  10.00.40219.473                             UnknownPackage  CVE-2014-3802        Medium    93.22    6.6  
+snakeyaml                1.17             1.26                       java-archive    GHSA-rvwf-54qp-4r6v  High      85.45    2.1  
+lodash                   3.10.1           4.17.19                    npm             GHSA-p6mc-m468-83gw  High      82.90    1.5  
+cryptacular              1.1.1            1.1.4                      java-archive    GHSA-x64g-4xx9-fh6x  High      81.22    1.2  
+lodash                   3.10.1           4.17.12                    npm             GHSA-jf85-cpcp-j695  Critical  77.84    1.1  
+xmldom                   0.1.31                                      npm             GHSA-crh6-fp67-6883  Critical  76.75    1.0  
+trim-newlines            1.0.0            3.0.1                      npm             GHSA-7p7h-4mm5-852v  High      78.84    1.0  
+terser                   3.17.0           4.8.1                      npm             GHSA-4wf5-vphf-c2xc  High      78.67    1.0  
+elastic/elasticsearch    6.5.4                                       UnknownPackage  CVE-2023-31418       High      67.08    0.4  
+cxf-rt-rs-security-jose  3.2.2            3.5.9                      java-archive    GHSA-6pff-fmh2-4mmf  Medium    72.85    0.4  
+merge                    1.2.1            2.1.1                      npm             GHSA-7wpw-2hjm-89gp  High      66.79    0.4  
+markdown-it              8.4.2            12.3.2                     npm             GHSA-6vfc-qv3f-vr6c  Medium    71.36    0.4  
+snappy-java              1.1.4            1.1.10.1                   java-archive    GHSA-pqr6-cmr2-h8hf  Medium    68.27    0.3  
+snakeyaml                1.17             1.31                       java-archive    GHSA-c4r9-r8fh-9vj2  Medium    66.87    0.3  
+printf                   0.5.3            0.6.1                      npm             GHSA-xfhp-gmh8-r8v2  High      59.93    0.3  
+woodstox-core            5.0.3            5.4.0                      java-archive    GHSA-3f7h-mf4q-vrm4  Medium    65.90    0.3  
+xmldom                   0.1.31                                      npm             GHSA-5fg8-2547-mr8q  Medium    64.82    0.3  
+json-smart               2.3              2.3.1                      java-archive    GHSA-v528-7hrm-frqp  Medium    66.00    0.3  
+node-fetch               1.7.3            2.6.7                      npm             GHSA-r683-j2x4-v87g  High      55.42    0.3  
+xmldom                   0.1.31           0.5.0                      npm             GHSA-h6q6-9hqw-rwfv  Medium    67.87    0.3  
+httpclient               4.5.2            4.5.13                     java-archive    GHSA-7r82-7xv7-xcpj  Medium    64.51    0.2  
+snappy-java              1.1.4            1.1.10.1                   java-archive    GHSA-qcwq-55hx-v3vh  High      55.46    0.2  
+lodash                   3.10.1           4.17.21                    npm             GHSA-35jh-r3h4-6jhm  High      54.77    0.2  
+lodash.template          4.5.0                                       npm             GHSA-35jh-r3h4-6jhm  High      54.77    0.2  
+elastic/elasticsearch    6.5.4            *6.8.14, 7.10.0            UnknownPackage  CVE-2020-7021        Medium    64.19    0.2  
+snakeyaml                1.17             1.31                       java-archive    GHSA-3mc7-4q67-w48m  High      52.89    0.2  
+elastic/elasticsearch    6.5.4            *6.8.2, 7.2.1              UnknownPackage  CVE-2019-7614        Medium    59.00    0.2  
+ajv                      5.5.2            6.12.3                     npm             GHSA-v88g-cgmw-v5xw  Medium    57.04    0.2  
+elastic/elasticsearch    6.5.4            5.6.15, *6.6.1             UnknownPackage  CVE-2019-7611        High      48.27    0.2  
+elastic/elasticsearch    6.5.4            *6.8.15, 7.11.2            UnknownPackage  CVE-2021-22135       Medium    57.71    0.2  
+commons-beanutils        1.9.4            1.11.0                     java-archive    GHSA-wxr5-93ph-8wr9  High      44.31    0.2  
+lodash                   3.10.1           4.17.11                    npm             GHSA-4xc9-xhrj-v574  High      43.44    0.2  
+elastic/elasticsearch    6.5.4            *6.8.17, 7.13.3            UnknownPackage  CVE-2021-22144       Medium    52.96    0.2  
+braces                   1.8.5            3.0.3                      npm             GHSA-grv7-fg5c-xmjg  High      42.94    0.2  
+braces                   2.3.2            3.0.3                      npm             GHSA-grv7-fg5c-xmjg  High      42.94    0.2  
+bcprov-jdk15on           1.70                                        java-archive    GHSA-hr8g-6v94-x4m9  Medium    51.35    0.1  
+okio-jvm                 3.2.0            3.4.0                      java-archive    GHSA-w33c-445m-f8w7  Medium    48.06    0.1  
+apache/tomcat                             *9.0.106, 10.1.42, 11.0.8  UnknownPackage  CVE-2025-48988       High      39.97    0.1  
+apache/tomcat            18               *9.0.106, 10.1.42, 11.0.8  UnknownPackage  CVE-2025-48988       High      39.97    0.1  
+apache/tomcat            9.0.102          *9.0.106, 10.1.42, 11.0.8  UnknownPackage  CVE-2025-48988       High      39.97    0.1  
+cross-spawn              5.1.0            6.0.6                      npm             GHSA-3xgq-45jj-v275  High      39.07    0.1  
+snakeyaml                1.17             1.32                       java-archive    GHSA-9w3m-gqgf-c4p9  Medium    42.66    0.1  
+manage_project/manage    365                                         UnknownPackage  CVE-2021-43689       Medium    45.18    0.1  
+elastic/elasticsearch    6.5.4            *6.8.13, 7.9.2             UnknownPackage  CVE-2020-7020        Low       57.61    0.1  
+apache/commons_net                        3.9.0                      UnknownPackage  CVE-2021-37533       Medium    42.22    0.1  
+apache/commons_net       1.0.15.0         3.9.0                      UnknownPackage  CVE-2021-37533       Medium    42.22    0.1  
+snappy-java              1.1.4            1.1.10.1                   java-archive    GHSA-fjpj-2g6w-x25r  Medium    42.78    0.1  
+jackson-dataformat-cbor  2.8.11           2.11.4                     java-archive    GHSA-xmc8-26q4-qjhx  High      34.32    0.1  
+snakeyaml                1.17             1.31                       java-archive    GHSA-98wm-3w3q-mw94  Medium    38.16  < 0.1  
+netty-handler            4.1.96.Final     4.1.118.Final              java-archive    GHSA-4g8c-wm8x-jfhw  High      32.65  < 0.1  
+micromatch               2.3.11           4.0.8                      npm             GHSA-952p-6rrq-rcjv  Medium    38.85  < 0.1  
+micromatch               3.1.10           4.0.8                      npm             GHSA-952p-6rrq-rcjv  Medium    38.85  < 0.1  
+node-notifier            5.4.5            8.0.1                      npm             GHSA-5fw9-fq32-wv5p  Medium    38.17  < 0.1  
+opensaml                 2.6.4            2.6.5                      java-archive    GHSA-78fq-w796-q537  Medium    38.57  < 0.1  
+bcprov-jdk15on           1.70             1.78                       java-archive    GHSA-8xfc-gm6g-vgpv  Medium    37.82  < 0.1  
+bcprov-jdk18on           1.77             1.78                       java-archive    GHSA-8xfc-gm6g-vgpv  Medium    37.82  < 0.1  
+braces                   1.8.5            2.3.1                      npm             GHSA-cwfw-4gq5-mrqx  Low       50.36  < 0.1  
+lodash                   3.10.1           4.17.5                     npm             GHSA-fvqr-27wr-82fm  Medium    34.43  < 0.1  
+bcprov-jdk18on           1.77             1.78                       java-archive    GHSA-4h8f-2wvx-gg5w  Medium    34.91  < 0.1  
+elastic/elasticsearch    6.5.4            *6.8.12, 7.9.0             UnknownPackage  CVE-2020-7019        Medium    34.49  < 0.1  
+elastic/elasticsearch    6.5.4            *6.8.15, 7.11.2            UnknownPackage  CVE-2021-22137       Medium    35.19  < 0.1  
+babel-traverse           6.26.0                                      npm             GHSA-67hx-6x53-jw92  Critical  21.23  < 0.1  
+json-path                2.4.0            2.9.0                      java-archive    GHSA-pfh2-hfmq-phg5  Medium    31.04  < 0.1  
+nimbus-jose-jwt          9.25.6           9.37.2                     java-archive    GHSA-gvpg-vgmx-xg6w  High      24.12  < 0.1  
+json-smart               2.5.1            2.5.2                      java-archive    GHSA-pq2g-wx69-c263  High      23.74  < 0.1  
+bcprov-jdk18on           1.77             1.78                       java-archive    GHSA-m44j-cfrm-g8qc  Medium    29.85  < 0.1  
+snappy-java              1.1.4            1.1.10.4                   java-archive    GHSA-55g7-9cwv-5qfv  High      22.86  < 0.1  
+netty-common             4.1.96.Final     4.1.118.Final              java-archive    GHSA-389x-839f-4rhx  Medium    29.28  < 0.1  
+xmlsec                   2.3.0            2.3.4                      java-archive    GHSA-xfrj-6vvc-3xm2  Medium    27.56  < 0.1  
+apache/tomcat                                                        UnknownPackage  CVE-2016-6325        High      21.62  < 0.1  
+apache/tomcat            18                                          UnknownPackage  CVE-2016-6325        High      21.62  < 0.1  
+apache/tomcat            9.0.102                                     UnknownPackage  CVE-2016-6325        High      21.62  < 0.1  
+lodash                   3.10.1           4.17.11                    npm             GHSA-x5rq-j2xg-h7qm  Medium    28.29  < 0.1  
+jackson-core             2.14.1           2.15.0                     java-archive    GHSA-h46c-h94j-95f3  High      20.16  < 0.1  
+snakeyaml                1.17             1.32                       java-archive    GHSA-w37g-rhq8-7m4j  Medium    23.71  < 0.1  
+service_project/service                                              UnknownPackage  CVE-2022-29583       High      20.09  < 0.1  
+snakeyaml                1.17             1.31                       java-archive    GHSA-hhhw-99gj-p3c3  Medium    24.69  < 0.1  
+elastic/elasticsearch    6.5.4            *7.17.11, 8.9.0            UnknownPackage  CVE-2023-46674       High      17.73  < 0.1  
+dnsjava                  2.0.6            3.6.0                      java-archive    GHSA-cfxw-4h78-h7fw  High      14.88  < 0.1  
+apache/tomcat                             *9.0.104, 10.1.40, 11.0.6  UnknownPackage  CVE-2025-31651       Critical  11.18  < 0.1  
+apache/tomcat            18               *9.0.104, 10.1.40, 11.0.6  UnknownPackage  CVE-2025-31651       Critical  11.18  < 0.1  
+apache/tomcat            9.0.102          *9.0.104, 10.1.40, 11.0.6  UnknownPackage  CVE-2025-31651       Critical  11.18  < 0.1  
+lodash                   3.10.1           4.17.21                    npm             GHSA-29mw-wpgm-hmr9  Medium    21.85  < 0.1  
+rollup                   0.41.6           2.79.2                     npm             GHSA-gcx4-mw62-g8wm  High      15.72  < 0.1  
+parseuri                 0.0.6                                       npm             GHSA-6fx8-h7jm-663j  Medium    21.24  < 0.1  
+poi-ooxml                5.2.5            5.4.0                      java-archive    GHSA-gmg8-593g-7mv3  Medium    20.34  < 0.1  
+debug                    4.1.1            4.3.1                      npm             GHSA-gxpj-cx7g-858c  Low       28.05  < 0.1  
+netty-codec-http         4.1.96.Final     4.1.108.Final              java-archive    GHSA-5jpm-x58v-624v  Medium    17.59  < 0.1  
+apache/tomcat                             *9.0.105, 10.1.41, 11.0.7  UnknownPackage  CVE-2025-46701       High       9.16  < 0.1  
+apache/tomcat            18               *9.0.105, 10.1.41, 11.0.7  UnknownPackage  CVE-2025-46701       High       9.16  < 0.1  
+apache/tomcat            9.0.102          *9.0.105, 10.1.41, 11.0.7  UnknownPackage  CVE-2025-46701       High       9.16  < 0.1  
+bcprov-jdk15on           1.70             1.78                       java-archive    GHSA-v435-xc8x-wvr9  Medium    13.40  < 0.1  
+bcprov-jdk18on           1.77             1.78                       java-archive    GHSA-v435-xc8x-wvr9  Medium    13.40  < 0.1  
+netty-common             4.1.96.Final     4.1.115.Final              java-archive    GHSA-xq3w-v528-46rv  Medium    12.12  < 0.1  
+guava                    25.1-jre         32.0.0-android             java-archive    GHSA-7g45-4rm6-3mm3  Medium    11.65  < 0.1  
+spring-context           5.3.39                                      java-archive    GHSA-4gc7-5j7h-4qph  Medium    10.75  < 0.1  
+apache/tomcat                             *9.0.106, 10.1.42, 11.0.8  UnknownPackage  CVE-2025-49125       High       4.97  < 0.1  
+apache/tomcat            18               *9.0.106, 10.1.42, 11.0.8  UnknownPackage  CVE-2025-49125       High       4.97  < 0.1  
+apache/tomcat            9.0.102          *9.0.106, 10.1.42, 11.0.8  UnknownPackage  CVE-2025-49125       High       4.97  < 0.1  
+spring-context           5.3.39                                      java-archive    GHSA-4wp7-92pw-q264  Low       17.19  < 0.1  
+cookie                   0.4.2            0.7.0                      npm             GHSA-pxg6-pf52-xh8x  Low       16.99  < 0.1  
+apache/tomcat                             *9.0.106, 10.1.42, 11.0.8  UnknownPackage  CVE-2025-49124       High       2.42  < 0.1  
+apache/tomcat            18               *9.0.106, 10.1.42, 11.0.8  UnknownPackage  CVE-2025-49124       High       2.42  < 0.1  
+apache/tomcat            9.0.102          *9.0.106, 10.1.42, 11.0.8  UnknownPackage  CVE-2025-49124       High       2.42  < 0.1  
+json-smart               2.3              2.4.9                      java-archive    GHSA-493p-pfq6-5258  High       1.06  < 0.1  
+guava                    25.1-jre         32.0.0-android             java-archive    GHSA-5mg8-w23w-74h3  Low        0.50  < 0.1  
+esapi                    2.5.1.0          2.5.2.0                    java-archive    GHSA-7c2q-5qmr-v76q  High        N/A    N/A  
+esapi                    2.5.1.0          2.6.0.0                    java-archive    GHSA-r68h-jhhj-9jvm  Medium      N/A    N/A  
+braces                   1.8.5            2.3.1                      npm             GHSA-g95f-p29q-9xw4  Low         N/A    N/A  
+clean-css                3.4.28           4.1.11                     npm             GHSA-wxhq-pm8v-cw75  Low         N/A    N/A
+
+Vulnerability Summary:
+Critical: 0
+High: 0
+Medium: 0
+Low: 0
