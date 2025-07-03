@@ -1,0 +1,110 @@
+=== Scan Results for a7ac686a-17ca09ac-bom.json ===
+Scan Date: Thu Jul  3 14:46:56 UTC 2025
+===================================
+NAME                  INSTALLED  FIXED IN  TYPE  VULNERABILITY        SEVERITY  EPSS %  RISK          
+tar                   6.0.2      6.1.1     npm   GHSA-3jfq-g458-7qm9  High      99.39   68.2          
+jquery                3.4.1      3.5.0     npm   GHSA-jpcq-cgw6-v4j6  Medium    95.45   62.5   (kev)  
+json5                 2.1.3      2.2.2     npm   GHSA-9c47-m6qq-7p4h  High      97.47   33.1          
+qs                    6.5.2      6.5.3     npm   GHSA-hrpp-h998-j3pp  High      89.96   4.2           
+shell-quote           1.7.2      1.7.3     npm   GHSA-g4rg-993r-mgx7  Critical  87.96   3.7           
+tough-cookie          2.5.0      4.1.3     npm   GHSA-72xf-g2v4-qvf3  Medium    89.50   3.0           
+moment                2.27.0     2.29.4    npm   GHSA-wc69-rhjr-hc9g  High      87.21   2.6           
+jquery                3.4.1      3.5.0     npm   GHSA-gxr4-xjj5-5px2  Medium    88.48   2.6           
+serialize-javascript  2.1.2      3.1.0     npm   GHSA-hxcc-f52p-wc94  High      85.99   2.3           
+ua-parser-js          0.7.21     0.7.23    npm   GHSA-394c-5j6w-4xmx  High      83.49   1.6           
+lodash.pick           4.4.0                npm   GHSA-p6mc-m468-83gw  High      82.90   1.5           
+ua-parser-js          0.7.21     0.7.22    npm   GHSA-662x-fhqg-9p8v  High      78.41   0.9           
+json-schema           0.2.3      0.4.0     npm   GHSA-896r-f27r-55mw  Critical  74.52   0.8           
+tar                   6.0.2      6.1.9     npm   GHSA-5955-9wpr-37jh  High      75.29   0.7           
+minimist              1.2.5      1.2.6     npm   GHSA-xvch-5gv4-984h  Critical  72.56   0.7           
+ua-parser-js          0.7.21     0.7.33    npm   GHSA-fhg7-m89q-25r3  High      75.46   0.7           
+y18n                  3.2.1      3.2.2     npm   GHSA-c4w7-xm78-47vh  High      70.64   0.5           
+y18n                  4.0.0      4.0.1     npm   GHSA-c4w7-xm78-47vh  High      70.64   0.5           
+dompurify             1.0.11     2.0.3     npm   GHSA-chqj-j4fh-rw7m  Medium    73.67   0.5           
+moment                2.27.0     2.29.2    npm   GHSA-8hfj-j24r-96c4  High      68.95   0.5           
+got                   8.3.2      11.8.5    npm   GHSA-pfrx-2q88-qq97  Medium    71.90   0.4           
+request               2.88.2               npm   GHSA-p8p7-x288-28g6  Medium    68.76   0.3           
+markdown-it           8.4.2      12.3.2    npm   GHSA-6vfc-qv3f-vr6c  Medium    70.00   0.3           
+async                 3.2.0      3.2.2     npm   GHSA-fwr7-v2mv-hh25  High      61.15   0.3           
+tmpl                  1.0.4      1.0.5     npm   GHSA-jgrx-mgxx-jf9v  High      60.86   0.3           
+decode-uri-component  0.2.0      0.2.1     npm   GHSA-w573-4hg7-7wgq  High      59.10   0.3           
+urijs                 1.19.2     1.19.6    npm   GHSA-p6j9-7xhc-rhwp  High      59.04   0.3           
+angular               1.8.0                npm   GHSA-4w4v-5hc9-xrr2  High      58.48   0.3           
+angular               1.8.0                npm   GHSA-m2h2-264f-f486  Medium    66.99   0.3           
+node-fetch            1.7.3      2.6.7     npm   GHSA-r683-j2x4-v87g  High      55.42   0.3           
+node-fetch            2.6.0      2.6.7     npm   GHSA-r683-j2x4-v87g  High      55.42   0.3           
+path-parse            1.0.6      1.0.7     npm   GHSA-hj48-42vr-x3v9  Medium    65.39   0.3           
+jszip                 3.5.0      3.8.0     npm   GHSA-36fh-84j7-cv5h  Medium    61.12   0.3           
+minimatch             3.0.4      3.0.5     npm   GHSA-f8q6-p94x-37v3  High      56.37   0.3           
+angular               1.8.0                npm   GHSA-prc3-vjfx-vhm9  Medium    63.18   0.3           
+dompurify             1.0.11     2.5.0     npm   GHSA-gx9m-whjm-85jf  High      51.15   0.2           
+ws                    5.2.2      5.2.4     npm   GHSA-3h5v-q93c-6h6q  High      54.59   0.2           
+lodash                4.17.19    4.17.21   npm   GHSA-35jh-r3h4-6jhm  High      54.76   0.2           
+urijs                 1.19.2     1.19.11   npm   GHSA-3vjf-82ff-p4r3  High      54.38   0.2           
+semver                5.7.1      5.7.2     npm   GHSA-c2qf-rxjj-qqgw  High      53.64   0.2           
+semver                6.3.0      6.3.1     npm   GHSA-c2qf-rxjj-qqgw  High      53.64   0.2           
+semver                7.0.0      7.5.2     npm   GHSA-c2qf-rxjj-qqgw  High      53.64   0.2           
+ajv                   4.9.0      6.12.3    npm   GHSA-v88g-cgmw-v5xw  Medium    57.04   0.2           
+browserslist          4.13.0     4.16.5    npm   GHSA-w8qv-6jwh-64r5  Medium    56.42   0.2           
+codemirror            5.56.0     5.58.2    npm   GHSA-4gw3-8f77-f72c  Medium    56.16   0.2           
+svelte                3.24.0     3.49.0    npm   GHSA-wv8q-r932-8hc7  Medium    53.75   0.2           
+urijs                 1.19.2     1.19.10   npm   GHSA-8h2f-7jc4-7m3m  Medium    53.67   0.2           
+urijs                 1.19.2     1.19.4    npm   GHSA-3329-pjwv-fjpg  Medium    52.52   0.2           
+angular               1.8.0                npm   GHSA-qwqh-hm9m-p5hr  Medium    53.67   0.2           
+braces                2.3.2      3.0.3     npm   GHSA-grv7-fg5c-xmjg  High      42.94   0.2           
+tar                   6.0.2      6.1.2     npm   GHSA-r628-mhmh-qjhw  High      41.64   0.1           
+koa                   2.13.0     2.15.4    npm   GHSA-593f-38f6-jp5m  Critical  36.98   0.1           
+urijs                 1.19.2     1.19.11   npm   GHSA-g694-m8vq-gv9h  Medium    46.67   0.1           
+ws                    5.2.2      5.2.3     npm   GHSA-6fc8-4gx4-v693  Medium    49.14   0.1           
+cross-spawn           5.1.0      6.0.6     npm   GHSA-3xgq-45jj-v275  High      39.05   0.1           
+cross-spawn           6.0.5      6.0.6     npm   GHSA-3xgq-45jj-v275  High      39.05   0.1           
+cross-spawn           7.0.3      7.0.5     npm   GHSA-3xgq-45jj-v275  High      39.05   0.1           
+tar                   6.0.2      6.2.1     npm   GHSA-f5x3-32g6-xq36  Medium    43.15   0.1           
+http-cache-semantics  3.8.1      4.1.1     npm   GHSA-rc47-6667-2j5j  High      37.23   0.1           
+path-to-regexp        1.8.0      1.9.0     npm   GHSA-9wv6-86v2-598j  High      35.46   0.1           
+hosted-git-info       2.8.8      2.8.9     npm   GHSA-43f8-2h32-f4cj  Medium    42.42   0.1           
+angular               1.8.0                npm   GHSA-2qqx-w9hr-q5gx  Medium    41.11   < 0.1         
+angular               1.8.0                npm   GHSA-2vrf-hf26-jrp5  Medium    41.11   < 0.1         
+urijs                 1.19.2     1.19.7    npm   GHSA-89gv-h8wf-cg8r  Medium    39.98   < 0.1         
+ua-parser-js          0.7.21     0.7.24    npm   GHSA-78cj-fxph-m83p  High      31.71   < 0.1         
+node-notifier         5.4.3      8.0.1     npm   GHSA-5fw9-fq32-wv5p  Medium    38.15   < 0.1         
+nth-check             1.0.2      2.0.1     npm   GHSA-rp65-9cf3-cjxr  High      31.22   < 0.1         
+micromatch            3.1.10     4.0.8     npm   GHSA-952p-6rrq-rcjv  Medium    38.24   < 0.1         
+ansi-regex            3.0.0      3.0.1     npm   GHSA-93q8-gq69-wqmw  High      30.28   < 0.1         
+ansi-regex            4.1.0      4.1.1     npm   GHSA-93q8-gq69-wqmw  High      30.28   < 0.1         
+dompurify             1.0.11     2.0.17    npm   GHSA-63q7-h895-m982  Medium    35.77   < 0.1         
+urijs                 1.19.2     1.19.9    npm   GHSA-gmv4-r438-p67f  Medium    34.98   < 0.1         
+@babel/traverse       7.10.5     7.23.2    npm   GHSA-67hx-6x53-jw92  Critical  21.24   < 0.1         
+dompurify             1.0.11     2.4.2     npm   GHSA-p3vf-v8qc-cwcr  Critical  21.28   < 0.1         
+papaparse             4.6.3      5.2.0     npm   GHSA-qvjc-g5vr-mfgr  High      24.48   < 0.1         
+dompurify             1.0.11     2.5.4     npm   GHSA-mmhx-hmjr-r674  High      23.01   < 0.1         
+svelte                3.24.0     4.2.19    npm   GHSA-8266-84wp-wv5c  Medium    28.74   < 0.1         
+jszip                 3.5.0      3.7.0     npm   GHSA-jg8v-48h5-wgxg  Medium    24.33   < 0.1         
+angular               1.8.0                npm   GHSA-m9gf-397r-hwpg  Low       28.95   < 0.1         
+lodash                4.17.19    4.17.21   npm   GHSA-29mw-wpgm-hmr9  Medium    21.86   < 0.1         
+openpgp               4.10.7     4.10.11   npm   GHSA-ch3c-v47x-4pgp  Medium    23.55   < 0.1         
+debug                 3.2.6      3.2.7     npm   GHSA-gxpj-cx7g-858c  Low       28.04   < 0.1         
+debug                 4.1.1      4.3.1     npm   GHSA-gxpj-cx7g-858c  Low       28.04   < 0.1         
+yargs-parser          9.0.2      13.1.2    npm   GHSA-p9pc-299p-vxgp  Medium    13.28   < 0.1         
+koa                   2.13.0     2.16.1    npm   GHSA-x2rg-q646-7m2v  Medium    13.90   < 0.1         
+node-fetch            2.6.0      2.6.1     npm   GHSA-w7rc-rwvf-8q5r  Low       24.07   < 0.1         
+urijs                 1.19.2     1.19.8    npm   GHSA-gcv8-gh4r-25x6  Medium    8.54    < 0.1         
+@babel/helpers        7.10.4     7.26.10   npm   GHSA-968p-4wvh-cqc8  Medium    8.68    < 0.1         
+@babel/runtime        7.10.5     7.26.10   npm   GHSA-968p-4wvh-cqc8  Medium    8.68    < 0.1         
+tar                   6.0.2      6.1.9     npm   GHSA-qq89-hq3f-393p  High      4.06    < 0.1         
+brace-expansion       1.1.11     1.1.12    npm   GHSA-v6h2-p8h4-qcjw  Low       16.24   < 0.1         
+angular-sanitize      1.8.0                npm   GHSA-4p4w-6hg8-63wx  Medium    7.70    < 0.1         
+dompurify             1.0.11     3.2.4     npm   GHSA-vhxf-7vqr-mrjg  Medium    6.04    < 0.1         
+tar                   6.0.2      6.1.7     npm   GHSA-9r2w-394v-53qc  High      2.07    < 0.1         
+angular               1.8.0                npm   GHSA-mqm9-c95h-x2p6  Low       5.25    < 0.1         
+word-wrap             1.2.3      1.2.4     npm   GHSA-j8xg-fqg3-53r7  Medium    2.01    < 0.1         
+angular               1.8.0                npm   GHSA-j58c-ww9w-pwp5  Low       0.44    < 0.1         
+dompurify             1.0.11     2.0.7     npm   GHSA-mjjq-c88q-qhr6  Critical  N/A     N/A           
+moment-timezone       0.5.31     0.5.35    npm   GHSA-v78c-4p63-2j6c  Medium    N/A     N/A           
+moment-timezone       0.5.31     0.5.35    npm   GHSA-56x4-j7p9-fcf9  Low       N/A     N/A
+
+Vulnerability Summary:
+Critical: 0
+High: 0
+Medium: 0
+Low: 0
