@@ -1,0 +1,10 @@
+=== Scan Results for 2597f763-c5c704b9-SafeExamBrowser_seb-win-refactoring_ce15fa.json ===
+Scan Date: Mon Jul  7 21:28:43 UTC 2025
+===================================
+No vulnerabilities found
+
+Vulnerability Summary:
+Critical: 0
+High: 0
+Medium: 0
+Low: 0
