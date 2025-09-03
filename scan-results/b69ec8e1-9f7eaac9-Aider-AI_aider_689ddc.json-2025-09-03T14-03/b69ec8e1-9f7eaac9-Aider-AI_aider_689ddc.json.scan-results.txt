@@ -1,0 +1,21 @@
+=== Scan Results for b69ec8e1-9f7eaac9-Aider-AI_aider_689ddc.json ===
+Scan Date: Wed Sep  3 14:04:27 UTC 2025
+===================================
+NAME              INSTALLED  FIXED IN   TYPE    VULNERABILITY        SEVERITY  EPSS           RISK   
+torch             2.2.2      2.6.0      python  GHSA-53q9-r3pm-6pq6  Critical  0.4% (61st)    0.4    
+llama-index-core  0.12.26    0.12.41    python  GHSA-m84c-4c34-28gf  Medium    0.3% (56th)    0.2    
+llama-index-core  0.12.26    0.12.41    python  GHSA-2rhq-96q8-4vjq  High      < 0.1% (24th)  < 0.1  
+llama-index-core  0.12.26    0.12.38    python  GHSA-7753-xrfw-ch36  High      < 0.1% (21st)  < 0.1  
+llama-index-core  0.12.26    0.12.38    python  GHSA-3wxx-q3gv-pvvv  Medium    < 0.1% (27th)  < 0.1  
+transformers      4.52.4     4.53.0     python  GHSA-9356-575x-2w9m  Medium    < 0.1% (17th)  < 0.1  
+torch             2.2.2      2.8.0      python  GHSA-887c-mr87-cxwp  Medium    < 0.1% (19th)  < 0.1  
+aiohttp           3.12.13    3.12.14    python  GHSA-9548-qrrj-x5pj  Low       < 0.1% (12th)  < 0.1  
+pillow            11.2.1     11.3.0     python  GHSA-xg8h-j46f-w952  High      < 0.1% (2nd)   < 0.1  
+torch             2.2.2      2.7.1-rc1  python  GHSA-3749-ghw9-m3mg  Low       < 0.1% (7th)   < 0.1  
+uv                0.7.15     0.8.6      python  GHSA-8qf3-x8v5-2pj8  Medium    < 0.1% (1st)   < 0.1
+
+Vulnerability Summary:
+Critical: 0
+High: 0
+Medium: 0
+Low: 0

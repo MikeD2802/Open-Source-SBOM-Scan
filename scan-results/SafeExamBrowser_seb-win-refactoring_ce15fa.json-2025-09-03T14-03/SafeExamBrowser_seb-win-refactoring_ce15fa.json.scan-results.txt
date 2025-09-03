@@ -1,0 +1,10 @@
+=== Scan Results for SafeExamBrowser_seb-win-refactoring_ce15fa.json ===
+Scan Date: Wed Sep  3 14:03:02 UTC 2025
+===================================
+No vulnerabilities found
+
+Vulnerability Summary:
+Critical: 0
+High: 0
+Medium: 0
+Low: 0

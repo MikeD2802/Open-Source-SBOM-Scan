@@ -1,0 +1,3 @@
+=== Scan Results for 2597f763-e4fca46e-ADManager_Plus_SBOM_report.json ===
+Scan Date: Wed Sep  3 14:04:29 UTC 2025
+===================================
