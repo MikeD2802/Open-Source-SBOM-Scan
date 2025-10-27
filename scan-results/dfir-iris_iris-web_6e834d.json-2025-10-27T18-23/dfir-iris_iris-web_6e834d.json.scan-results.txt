@@ -1,0 +1,40 @@
+=== Scan Results for dfir-iris_iris-web_6e834d.json ===
+Scan Date: Mon Oct 27 18:23:48 UTC 2025
+===================================
+NAME                     INSTALLED  FIXED IN  TYPE    VULNERABILITY        SEVERITY  EPSS           RISK          
+jquery                   1.11.3     3.5.0     npm     GHSA-jpcq-cgw6-v4j6  Medium    27.7% (96th)   62.5   (kev)  
+vite                     5.4.14     5.4.15    npm     GHSA-x574-m823-4x7w  Medium    86.6% (99th)   44.6          
+jquery                   1.11.3     3.5.0     npm     GHSA-gxr4-xjj5-5px2  Medium    22.5% (95th)   13.4          
+jquery                   1.11.3     1.12.2    npm     GHSA-rmxg-73gg-4p98  Medium    12.8% (93rd)   7.1           
+vite                     5.4.14     5.4.16    npm     GHSA-4r4m-qw57-chr8  Medium    4.1% (88th)    2.1           
+jquery                   1.11.3     3.4.0     npm     GHSA-6c3j-c64m-qhgq  Medium    2.9% (85th)    1.6           
+vite                     5.4.14     5.4.20    npm     GHSA-g4jq-h2w9-997c  Low       1.5% (80th)    0.5           
+azure-identity           1.10.0     1.16.1    python  GHSA-m5vv-6r4h-3vj9  Medium    0.3% (52nd)    0.2           
+flask-cors               5.0.0      6.0.0     python  GHSA-7rxf-gvfg-47g4  Medium    0.1% (36th)    < 0.1         
+urllib3                  1.26.18    1.26.19   python  GHSA-34jh-p97f-mpxf  Medium    0.1% (35th)    < 0.1         
+vite-plugin-static-copy  1.0.6      2.3.2     npm     GHSA-pp7p-q8fx-2968  Medium    0.1% (31st)    < 0.1         
+requests                 2.31.0     2.32.4    python  GHSA-9hjg-9r4m-mvj7  Medium    0.1% (29th)    < 0.1         
+vite                     5.4.14     5.4.19    npm     GHSA-859w-5945-r5v3  Medium    0.1% (29th)    < 0.1         
+flask-cors               5.0.0      6.0.0     python  GHSA-43qf-4rqw-9q2g  Medium    < 0.1% (26th)  < 0.1         
+form-data                4.0.0      4.0.4     npm     GHSA-fjxv-7rqg-78g4  Critical  < 0.1% (16th)  < 0.1         
+vite                     5.4.14     5.4.21    npm     GHSA-93m4-6634-74q7  Medium    < 0.1% (24th)  < 0.1         
+axios                    1.7.4      1.8.2     npm     GHSA-jr5f-v2jv-69x6  High      < 0.1% (13th)  < 0.1         
+requests                 2.31.0     2.32.0    python  GHSA-9wx4-h78v-vm56  Medium    < 0.1% (13th)  < 0.1         
+playwright               1.47.0     1.55.1    npm     GHSA-7mvr-c777-76hp  High      < 0.1% (6th)   < 0.1         
+flask-cors               5.0.0      6.0.0     python  GHSA-8vgw-p6qm-5gr7  Medium    < 0.1% (10th)  < 0.1         
+axios                    1.7.4      1.12.0    npm     GHSA-4hjh-wcwx-xvwj  High      < 0.1% (5th)   < 0.1         
+vite                     5.4.14     5.4.18    npm     GHSA-356w-63v5-8wf4  Medium    < 0.1% (5th)   < 0.1         
+urllib3                  1.26.18    2.5.0     python  GHSA-pq67-6m6q-mj2v  Medium    < 0.1% (4th)   < 0.1         
+brace-expansion          1.1.11     1.1.12    npm     GHSA-v6h2-p8h4-qcjw  Low       < 0.1% (5th)   < 0.1         
+brace-expansion          2.0.1      2.0.2     npm     GHSA-v6h2-p8h4-qcjw  Low       < 0.1% (5th)   < 0.1         
+vite                     5.4.14     5.4.17    npm     GHSA-xcj6-pq6g-qj4x  Medium    < 0.1% (1st)   < 0.1         
+vite                     5.4.14     5.4.20    npm     GHSA-jqfw-vq24-v9c3  Low       < 0.1% (5th)   < 0.1         
+flask                    3.1.0      3.1.1     python  GHSA-4grg-w6v8-c28g  Low       < 0.1% (3rd)   < 0.1         
+esbuild                  0.21.5     0.25.0    npm     GHSA-67mh-4wv8-2f99  Medium    N/A            N/A           
+@eslint/plugin-kit       0.2.5      0.3.4     npm     GHSA-xffm-g5w8-qvg7  Low       N/A            N/A
+
+Vulnerability Summary:
+Critical: 0
+High: 0
+Medium: 0
+Low: 0
